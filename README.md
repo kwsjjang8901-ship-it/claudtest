@@ -128,13 +128,142 @@ BZAR가 `notice.log`에 기록하는 탐지 항목을 파싱하여 OCSF **Detect
 
 ## 빌드 및 설치
 
-### 사전 요구 사항
+### 1단계. Go 설치 확인 및 설치
 
-- Go 1.21 이상
-- Zeek (+ BZAR 스크립트 로드)
-- Ubuntu Linux (systemd)
+#### 설치 여부 확인
 
-### 빌드
+```bash
+go version
+# 출력 예시: go version go1.21.0 linux/amd64
+```
+
+버전이 **1.21 미만**이거나 명령어를 찾을 수 없으면 아래 절차로 설치합니다.
+
+#### Go 설치 (Ubuntu)
+
+```bash
+# 기존 패키지 제거 (이전 버전이 있을 경우)
+sudo apt-get remove --purge golang-go -y
+
+# 최신 Go 다운로드 및 설치 (버전은 https://go.dev/dl/ 에서 확인)
+GO_VERSION=1.22.3
+wget -q https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz
+sudo rm -rf /usr/local/go
+sudo tar -C /usr/local -xzf go${GO_VERSION}.linux-amd64.tar.gz
+rm go${GO_VERSION}.linux-amd64.tar.gz
+
+# PATH 설정 (~/.bashrc 또는 ~/.profile에 추가)
+echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.bashrc
+source ~/.bashrc
+
+# 설치 확인
+go version
+```
+
+---
+
+### 2단계. Zeek 설치 확인 및 설치
+
+#### 설치 여부 확인
+
+```bash
+zeek --version
+# 출력 예시: zeek version 6.2.1
+
+# 서비스 상태 확인 (ZeekControl 사용 시)
+zeekctl status
+```
+
+#### Zeek 설치 (Ubuntu 22.04 / 24.04)
+
+```bash
+# 의존성 설치
+sudo apt-get update
+sudo apt-get install -y curl gnupg
+
+# Zeek 공식 저장소 추가
+echo 'deb http://download.opensuse.org/repositories/security:/zeek/xUbuntu_22.04/ /' \
+  | sudo tee /etc/apt/sources.list.d/security:zeek.list
+
+curl -fsSL https://download.opensuse.org/repositories/security:zeek/xUbuntu_22.04/Release.key \
+  | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/security_zeek.gpg > /dev/null
+
+sudo apt-get update
+sudo apt-get install -y zeek-6.2
+
+# PATH 등록
+echo 'export PATH=$PATH:/opt/zeek/bin' >> ~/.bashrc
+source ~/.bashrc
+
+# 설치 확인
+zeek --version
+```
+
+> Ubuntu 24.04의 경우 위 URL에서 `xUbuntu_22.04`를 `xUbuntu_24.04`로 변경하세요.
+
+#### Zeek 기본 설정
+
+```bash
+# 네트워크 인터페이스 확인
+ip link show
+
+# /opt/zeek/etc/node.cfg 편집 – 인터페이스 지정
+sudo nano /opt/zeek/etc/node.cfg
+# interface=eth0  ← 실제 인터페이스명으로 변경
+
+# 네트워크 대역 설정
+sudo nano /opt/zeek/etc/networks.cfg
+# 예: 192.168.0.0/16   Private network
+
+# Zeek 배포 및 시작
+sudo zeekctl deploy
+sudo zeekctl status
+```
+
+---
+
+### 3단계. BZAR 설치
+
+BZAR는 Zeek 스크립트 패키지로, `zkg`(Zeek Package Manager)를 통해 설치합니다.
+
+```bash
+# zkg 설치 확인
+zkg --version
+
+# BZAR 설치
+sudo zkg install zeek/mitre-attack/bzar
+
+# 설치 확인
+zkg list | grep bzar
+```
+
+설치 후 `/opt/zeek/share/zeek/site/local.zeek` 마지막 줄에 아래가 자동 추가됩니다.
+
+```zeek
+@load packages
+```
+
+추가되지 않았다면 수동으로 넣어줍니다.
+
+```bash
+echo '@load packages' | sudo tee -a /opt/zeek/share/zeek/site/local.zeek
+```
+
+Zeek 재배포로 BZAR 활성화:
+
+```bash
+sudo zeekctl deploy
+```
+
+BZAR 탐지 확인 (notice.log에 `BZAR::` 항목이 있으면 정상):
+
+```bash
+tail -f /opt/zeek/logs/current/notice.log | grep BZAR
+```
+
+---
+
+### 4단계. zeek-bzar-ocsf 빌드
 
 ```bash
 git clone https://github.com/kwsjjang8901-ship-it/claudtest
@@ -143,7 +272,7 @@ make build
 # 결과: ./build/zeek-bzar-ocsf
 ```
 
-### 서비스 설치 (root 필요)
+### 5단계. 서비스 설치 (root 필요)
 
 ```bash
 sudo make install
@@ -158,7 +287,7 @@ sudo ./build/zeek-bzar-ocsf install
 - 로그 디렉터리: `/var/log/zeek-bzar-ocsf/`
 - 증적 디렉터리: `/var/lib/zeek-bzar-ocsf/evidence/`
 
-### 서비스 시작
+### 6단계. 서비스 시작
 
 ```bash
 sudo systemctl start zeek-bzar-ocsf
@@ -166,7 +295,7 @@ sudo systemctl enable zeek-bzar-ocsf   # 부팅 시 자동 시작
 sudo systemctl status zeek-bzar-ocsf
 ```
 
-### 서비스 제거
+### 서비스 제거 (선택)
 
 ```bash
 # 설정 파일 유지
