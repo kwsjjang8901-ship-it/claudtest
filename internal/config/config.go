@@ -111,7 +111,7 @@ func DefaultConfig() *Config {
 			Producer: OCSFProducer{
 				Name:    "zeek-bzar-ocsf",
 				Version: "1.0.0",
-				URL:     "https://github.com/zeekurity/zeek-bzar-ocsf",
+				URL:     "https://github.com/kwsjjang8901-ship-it/claudtest",
 			},
 		},
 		Forwarder: ForwarderConfig{

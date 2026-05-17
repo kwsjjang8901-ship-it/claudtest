@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"sync"
 
-	"github.com/zeekurity/zeek-bzar-ocsf/internal/config"
+	"github.com/kwsjjang8901-ship-it/claudtest/internal/config"
 )
 
 // FileForwarder writes OCSF events as newline-delimited JSON to a file.

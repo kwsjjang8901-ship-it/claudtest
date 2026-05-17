@@ -219,7 +219,7 @@ func runCmd(name string, args ...string) error {
 
 const serviceTemplate = `[Unit]
 Description=Zeek BZAR OCSF Integration Service
-Documentation=https://github.com/zeekurity/zeek-bzar-ocsf
+Documentation=https://github.com/kwsjjang8901-ship-it/claudtest
 After=network.target
 Wants=network.target
 
@@ -245,7 +245,7 @@ WantedBy=multi-user.target
 `
 
 const defaultConfigYAML = `# zeek-bzar-ocsf configuration file
-# Documentation: https://github.com/zeekurity/zeek-bzar-ocsf
+# Documentation: https://github.com/kwsjjang8901-ship-it/claudtest
 
 zeek:
   # Directory containing current Zeek logs
@@ -284,7 +284,7 @@ ocsf:
   producer:
     name: zeek-bzar-ocsf
     version: "1.0.0"
-    url: https://github.com/zeekurity/zeek-bzar-ocsf
+    url: https://github.com/kwsjjang8901-ship-it/claudtest
 
 forwarder:
   outputs:

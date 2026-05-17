@@ -4,10 +4,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/zeekurity/zeek-bzar-ocsf/internal/bzar"
-	"github.com/zeekurity/zeek-bzar-ocsf/internal/evidence"
-	"github.com/zeekurity/zeek-bzar-ocsf/internal/ocsf"
-	"github.com/zeekurity/zeek-bzar-ocsf/internal/zeek"
+	"github.com/kwsjjang8901-ship-it/claudtest/internal/bzar"
+	"github.com/kwsjjang8901-ship-it/claudtest/internal/evidence"
+	"github.com/kwsjjang8901-ship-it/claudtest/internal/ocsf"
+	"github.com/kwsjjang8901-ship-it/claudtest/internal/zeek"
 )
 
 func newMapper() *ocsf.Mapper {

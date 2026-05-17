@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/zeekurity/zeek-bzar-ocsf/internal/config"
+	"github.com/kwsjjang8901-ship-it/claudtest/internal/config"
 )
 
 // HTTPForwarder sends OCSF events as JSON to an HTTP endpoint.

@@ -1,7 +1,7 @@
 package bzar
 
 import (
-	"github.com/zeekurity/zeek-bzar-ocsf/internal/zeek"
+	"github.com/kwsjjang8901-ship-it/claudtest/internal/zeek"
 )
 
 // Detection represents a BZAR-detected threat.

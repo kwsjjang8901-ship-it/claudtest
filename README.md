@@ -137,8 +137,8 @@ BZAR가 `notice.log`에 기록하는 탐지 항목을 파싱하여 OCSF **Detect
 ### 빌드
 
 ```bash
-git clone https://github.com/zeekurity/zeek-bzar-ocsf
-cd zeek-bzar-ocsf
+git clone https://github.com/kwsjjang8901-ship-it/claudtest
+cd claudtest
 make build
 # 결과: ./build/zeek-bzar-ocsf
 ```

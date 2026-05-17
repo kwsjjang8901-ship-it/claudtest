@@ -7,7 +7,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/zeekurity/zeek-bzar-ocsf/internal/config"
+	"github.com/kwsjjang8901-ship-it/claudtest/internal/config"
 )
 
 // SyslogForwarder sends OCSF events via syslog (UDP or TCP).

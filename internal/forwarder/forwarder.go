@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/zeekurity/zeek-bzar-ocsf/internal/config"
+	"github.com/kwsjjang8901-ship-it/claudtest/internal/config"
 )
 
 // Forwarder sends serialized OCSF events to one or more destinations.

@@ -1,4 +1,4 @@
-module github.com/zeekurity/zeek-bzar-ocsf
+module github.com/kwsjjang8901-ship-it/claudtest
 
 go 1.21
 

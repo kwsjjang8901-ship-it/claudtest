@@ -8,7 +8,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/zeekurity/zeek-bzar-ocsf/internal/zeek"
+	"github.com/kwsjjang8901-ship-it/claudtest/internal/zeek"
 )
 
 // Entry is a single log record stored for evidence.

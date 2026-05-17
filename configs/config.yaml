@@ -40,7 +40,7 @@ ocsf:
   producer:
     name: zeek-bzar-ocsf
     version: "1.0.0"
-    url: https://github.com/zeekurity/zeek-bzar-ocsf
+    url: https://github.com/kwsjjang8901-ship-it/claudtest
 
 forwarder:
   outputs:

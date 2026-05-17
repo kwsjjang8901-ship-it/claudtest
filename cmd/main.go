@@ -9,13 +9,13 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/zeekurity/zeek-bzar-ocsf/internal/bzar"
-	"github.com/zeekurity/zeek-bzar-ocsf/internal/config"
-	"github.com/zeekurity/zeek-bzar-ocsf/internal/evidence"
-	"github.com/zeekurity/zeek-bzar-ocsf/internal/forwarder"
-	"github.com/zeekurity/zeek-bzar-ocsf/internal/installer"
-	"github.com/zeekurity/zeek-bzar-ocsf/internal/ocsf"
-	"github.com/zeekurity/zeek-bzar-ocsf/internal/zeek"
+	"github.com/kwsjjang8901-ship-it/claudtest/internal/bzar"
+	"github.com/kwsjjang8901-ship-it/claudtest/internal/config"
+	"github.com/kwsjjang8901-ship-it/claudtest/internal/evidence"
+	"github.com/kwsjjang8901-ship-it/claudtest/internal/forwarder"
+	"github.com/kwsjjang8901-ship-it/claudtest/internal/installer"
+	"github.com/kwsjjang8901-ship-it/claudtest/internal/ocsf"
+	"github.com/kwsjjang8901-ship-it/claudtest/internal/zeek"
 )
 
 const version = "1.0.0"
