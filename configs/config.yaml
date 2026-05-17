@@ -1,0 +1,81 @@
+# =========================================================
+# zeek-bzar-ocsf 설정 파일
+# Zeek + BZAR 기반 네트워크 보안 모니터링 및 OCSF 변환기
+# =========================================================
+
+zeek:
+  # Zeek 현재 로그 디렉터리
+  log_dir: /opt/zeek/logs/current
+  # 로그 형식: tsv (기본값) 또는 json
+  log_format: tsv
+  # 모니터링할 Zeek 로그 파일 목록
+  logs:
+    - conn        # 네트워크 연결 메타데이터
+    - dns         # DNS 쿼리/응답
+    - http        # HTTP 트래픽
+    - ssl         # TLS/SSL 세션
+    - smb_files   # SMB 파일 작업 (BZAR 증적)
+    - smb_mapping # SMB 공유 매핑 (BZAR 증적)
+    - dce_rpc     # DCE/RPC 작업 (BZAR 증적)
+    - notice      # Zeek 공지 (BZAR 탐지 포함)
+
+bzar:
+  # BZAR notice.log 탐지 파싱 활성화
+  enabled: true
+
+evidence:
+  # 탐지 증적 수집 활성화
+  enabled: true
+  # 증적 파일 저장 경로
+  output_dir: /var/lib/zeek-bzar-ocsf/evidence
+  # 증적 파일 보존 기간 (일)
+  retention_days: 30
+  # 최대 증적 저장 용량 (MB)
+  max_size_mb: 1024
+  # UID 당 메모리 내 최대 버퍼 항목 수
+  buffer_size: 500
+
+ocsf:
+  version: "1.1.0"
+  producer:
+    name: zeek-bzar-ocsf
+    version: "1.0.0"
+    url: https://github.com/zeekurity/zeek-bzar-ocsf
+
+forwarder:
+  outputs:
+    # ── 파일 출력 (필수) ─────────────────────────────────
+    - type: file
+      path: /var/log/zeek-bzar-ocsf/events.json
+
+    # ── Syslog 출력 (주석 해제하여 활성화) ──────────────
+    # - type: syslog
+    #   host: 192.168.1.100   # Syslog 서버 IP
+    #   port: 514
+    #   protocol: udp         # udp 또는 tcp
+
+    # ── HTTP/HTTPS 출력 (SIEM 연동) ──────────────────────
+    # - type: http
+    #   url: https://siem.example.com/api/v1/events
+    #   timeout_seconds: 10
+    #   max_retries: 3
+    #   insecure: false       # true: TLS 인증서 검증 비활성화
+    #   headers:
+    #     Authorization: "Bearer YOUR_TOKEN_HERE"
+    #     X-Source: zeek-bzar-ocsf
+    #     Content-Type: application/json
+
+    # ── Elastic/OpenSearch 예시 ───────────────────────────
+    # - type: http
+    #   url: https://elasticsearch:9200/zeek-ocsf/_doc
+    #   timeout_seconds: 15
+    #   max_retries: 3
+    #   headers:
+    #     Authorization: "Basic BASE64_ENCODED_CREDENTIALS"
+
+logging:
+  # 로그 레벨: debug, info, warn, error
+  level: info
+  # 출력 대상: stdout, stderr, 또는 파일 경로
+  output: stdout
+  # 예시: output: /var/log/zeek-bzar-ocsf/service.log
